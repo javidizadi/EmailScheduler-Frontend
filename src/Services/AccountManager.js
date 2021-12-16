@@ -1,12 +1,12 @@
-import {instance, IsAuthed, clearAuth} from "./http-client";
+import {client, isAuthed, clearAuth} from "./http-client";
 
 export const Login = async (email, password) => {
-    await instance
+    await client
         .post("/login", {email: email, password: password})
 
         .then((response) => {
             if (response.status === 200) {
-                instance.defaults.headers.common["Authorization"] = "Bearer " + response.data["token"];
+                client.defaults.headers.common["Authorization"] = "Bearer " + response.data["token"];
                 return true;
             } else {
                 console.log(response.data["errors"]);
@@ -20,11 +20,11 @@ export const Login = async (email, password) => {
 };
 
 export const Register = async (email, password) => {
-    await instance
+    await client
         .post("/register", {email: email, password: password}).then((response) => {
 
             if (response.status === 200) {
-                instance.defaults.headers.common["Authorization"] = "Bearer " + response.data["token"];
+                client.defaults.headers.common["Authorization"] = "Bearer " + response.data["token"];
                 return true;
             } else {
                 console.log(response.data["errors"]);
@@ -38,9 +38,9 @@ export const Register = async (email, password) => {
 }
 
 export const ChangePassword = async (currentPassword, newPassword) => {
-    if (IsAuthed === true) {
-        await instance
-            .post("/ChangePassword", {currentPassword: this.currentPassword, newPassword: this.newPassword})
+    if (isAuthed === true) {
+        await client
+            .post("/ChangePassword", {currentPassword: currentPassword, newPassword: newPassword})
             .then((response) => {
                 if (response.status === 200) {
                     return true;
