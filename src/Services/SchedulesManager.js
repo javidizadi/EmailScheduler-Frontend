@@ -10,16 +10,20 @@ export const AddSchedule = async (subject, body, sendTo, sendTime) => {
             sendTime: sendTime
         }
 
-        await client.post("/schedules", schedule).then((response) => {
-            if (response.status === 200) {
-                return true;
-            } else if (response.status === 401) {
-                clearAuth();
+        await client.post("/schedules", schedule)
+            .then((response) => {
+                if (response.status === 200) {
+                    return true;
+                } else if (response.status === 401) {
+                    clearAuth();
+                    return false;
+                } else {
+                    return false;
+                }
+            })
+            .catch(() => {
                 return false;
-            } else {
-                return false;
-            }
-        });
+            });
     } else {
         return false;
     }
@@ -37,7 +41,10 @@ export const GetSchedules = async () => {
                 console.log(response.status);
                 return [];
             }
-        });
+        })
+            .catch(() => {
+                return false;
+            });
     } else {
         return [];
     }
@@ -54,7 +61,10 @@ export const GetSchedule = async (id) => {
                 console.log(response.status);
                 return {};
             }
-        });
+        })
+            .catch(() => {
+                return false;
+            });
     } else {
         return {};
     }
@@ -71,7 +81,10 @@ export const DeleteSchedule = async (id) => {
             } else {
                 return false;
             }
-        });
+        })
+            .catch(() => {
+                return false;
+            });
     } else {
         return false;
     }
@@ -97,7 +110,10 @@ export const UpdateSchedule = async (id, subject, body, sendTo, sendTime) => {
             } else {
                 return false;
             }
-        });
+        })
+            .catch(() => {
+                return false;
+            });
     } else {
         return false;
     }
