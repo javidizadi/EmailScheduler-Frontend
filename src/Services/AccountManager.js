@@ -1,4 +1,4 @@
-import {client, isAuthed, clearAuth} from "./http-client";
+import {client, isAuthed, Auth, clearAuth} from "./http-client";
 
 export const Login = async (email, password) => {
     await client
@@ -6,7 +6,7 @@ export const Login = async (email, password) => {
 
         .then((response) => {
             if (response.status === 200) {
-                client.defaults.headers.common["Authorization"] = "Bearer " + response.data["token"];
+                Auth(response.data["token"]);
                 return true;
             } else {
                 console.log(response.data["errors"]);
@@ -24,7 +24,7 @@ export const Register = async (email, password) => {
         .post("/register", {email: email, password: password}).then((response) => {
 
             if (response.status === 200) {
-                client.defaults.headers.common["Authorization"] = "Bearer " + response.data["token"];
+                Auth(response.data["token"]);
                 return true;
             } else {
                 console.log(response.data["errors"]);
