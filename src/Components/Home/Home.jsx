@@ -18,7 +18,7 @@ const Home = ({IsLoggedIn}) => {
 
                     {
                         IsLoggedIn ?
-                            <button className="btn btn-primary">Schedules</button> :
+                            <button className="btn btn-primary btn-lg">Schedules</button> :
                             <button className="btn btn-primary btn-lg">Get Started</button>
                     }
 
