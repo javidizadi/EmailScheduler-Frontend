@@ -1,14 +1,11 @@
 import axios from "axios";
 
-export let instance = axios.create({baseURL: "https://localhost:7143"});
+export let client = axios.create({baseURL: "https://localhost:7143"});
 
-export const IsAuthed = () => {
-    if (instance.defaults.headers.common["Authorization"] === "") {
-        return false;
-    }
-    return true;
+export const isAuthed = () => {
+    return client.defaults.headers.common["Authorization"] !== "";
 }
 
 export const clearAuth = () => {
-    instance.defaults.headers.common["Authorization"] = "";
+    client.defaults.headers.common["Authorization"] = "";
 }
