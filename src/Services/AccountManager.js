@@ -1,4 +1,4 @@
-import { client, AuthCheck, Auth, clearAuth } from "./http-client";
+import { client, AuthCheck, Auth, ClearAuth } from "./http-client";
 
 export const Login = async (email, password) => {
   try {
@@ -57,7 +57,7 @@ export const ChangePassword = async (currentPassword, newPassword) => {
     if (response.status === 200) {
       return true;
     } else if (response.status === 401) {
-      clearAuth();
+      ClearAuth();
     } else {
       console.log(response.data);
       return false;
