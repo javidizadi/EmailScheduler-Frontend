@@ -1,4 +1,4 @@
-import { client, AuthCheck, Auth, ClearAuth, response } from "./http-client";
+import { client, CheckAuth, Auth, ClearAuth, response } from "./http-client";
 
 export const Login = async (email, password) => {
   let result = Object.create(response);
@@ -53,7 +53,7 @@ export const Register = async (email, password) => {
 };
 
 export const ChangePassword = async (currentPassword, newPassword) => {
-  if (AuthCheck === true) {
+  if (CheckAuth() === true) {
     let result = Object.create(response);
     let serverResponse;
     const userInput = {
