@@ -1,4 +1,4 @@
-import { client, CheckAuth, ClearAuth } from "./http-client";
+import { client, CheckAuth, ClearAuth, response } from "./http-client";
 
 export const AddSchedule = async (subject, body, sendTo, sendTime) => {
   if (CheckAuth() === true) {
@@ -8,86 +8,88 @@ export const AddSchedule = async (subject, body, sendTo, sendTime) => {
       sendTo: sendTo,
       sendTime: sendTime,
     };
-    let response;
+    let serverResponse;
+    let result = Object.create(response);
+
     try {
-      response = await client.post("/schedules", schedule);
-    } catch {
-      return false;
+      serverResponse = await client.post("/schedules", schedule);
+    } catch (error) {
+      result.isSucceed = false;
+      console.log(error);
+      return result;
     }
-    if (response.status === 200) {
-      return true;
-    } else if (response.status === 401) {
+
+    result.isSucceed = serverResponse.status === 200;
+    if (serverResponse.status === 401) {
       ClearAuth();
-      return false;
-    } else {
-      return false;
     }
-  } else {
-    return false;
+
+    return result;
   }
 };
 
 export const GetSchedules = async () => {
   if (CheckAuth() === true) {
-    let response;
+    let serverResponse;
+    let result = Object.create(response);
+
     try {
-      response = await client.get("/schedules");
-    } catch {
-      return [];
+      serverResponse = await client.get("/schedules");
+    } catch (error) {
+      result.isSucceed = false;
+      console.log(error);
+      return result;
     }
-    if (response.status === 200) {
-      return response.data;
-    } else if (response.status === 401) {
+
+    result.isSucceed = serverResponse.status === 200;
+    if (result.isSucceed) {
+      result.result = serverResponse.data;
+    } else if (serverResponse.status === 401) {
       ClearAuth();
-      return [];
-    } else {
-      console.log(response.status);
-      return [];
     }
-  } else {
-    return [];
+    return result;
   }
 };
 export const GetSchedule = async (id) => {
   if (CheckAuth() === true && id != null) {
-    let response;
+    let serverResponse;
+    let result = Object.create(response);
+
     try {
-      response = await client.get("/schedules/" + id);
-    } catch {
-      return {};
+      serverResponse = await client.get("/schedules/" + id);
+    } catch (error) {
+      result.isSucceed = false;
+      console.log(error);
+      return result;
     }
-    if (response.status === 200) {
-      return response.data;
-    } else if (response.status === 401) {
+
+    result.isSucceed = serverResponse.status === 200;
+    if (result.isSucceed) {
+      result.result = serverResponse.data;
+    } else if (serverResponse.status === 401) {
       ClearAuth();
-      return {};
-    } else {
-      console.log(response.status);
-      return {};
     }
-  } else {
-    return {};
+    return result;
   }
 };
 
 export const DeleteSchedule = async (id) => {
   if (CheckAuth() === true && id != null) {
-    let response;
+    let serverResponse;
+    let result = Object.create(response);
+
     try {
-      response = await client.delete("/schedules/" + id);
+      serverResponse = await client.delete("/schedules/" + id);
     } catch {
-      return false;
+      result.isSucceed = false;
+      return result;
     }
-    if (response.status === 200) {
-      return true;
-    } else if (response.status === 401) {
+
+    result.isSucceed = serverResponse.status === 200;
+    if (serverResponse.status === 401) {
       ClearAuth();
-      return false;
-    } else {
-      return false;
     }
-  } else {
-    return false;
+    return result;
   }
 };
 
@@ -100,21 +102,21 @@ export const UpdateSchedule = async (id, subject, body, sendTo, sendTime) => {
       sendTo: sendTo,
       sendTime: sendTime,
     };
-    let response;
+    let serverResponse;
+    let result = Object.create(response);
+
     try {
-      response = await client.put("/schedules", newSchedule);
-    } catch {
-      return false;
+      serverResponse = await client.put("/schedules", newSchedule);
+    } catch (error) {
+      result.isSucceed = false;
+      console.log(error);
+      return result;
     }
-    if (response.status === 200) {
-      return true;
-    } else if (response.status === 401) {
+
+    result.isSucceed = serverResponse.status === 200;
+    if (serverResponse.status === 401) {
       ClearAuth();
-      return false;
-    } else {
-      return false;
     }
-  } else {
-    return false;
+    return result;
   }
 };
