@@ -1,32 +1,23 @@
 import React, {useState} from "react";
+import validator from "validator/es";
 import {Login as sendLogin} from "../../Services/AccountManager";
 
 const Login = () => {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/gm;
-
-    const [emailValid, setEmailValid] = useState(true);
+    const [emailValid, setEmailValid] = useState(false);
 
     const handleValidationEmail = (event) => {
-        setEmailValid(event.target.value.match(emailRegex) != null);
+        setEmailValid(validator.isEmail(event.target.value));
     };
 
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
-
-    const [passwordValid, setPasswordValid] = useState(true);
+    const [passwordValid, setPasswordValid] = useState(false);
 
     const handleValidationPassword = (event) => {
-        setPasswordValid(event.target.value.match(passwordRegex) != null);
+        setPasswordValid(validator.isStrongPassword(event.target.value));
     };
 
     const handleSubmit = async () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-
-        if (email === "" && password === "") {
-            setEmailValid(false);
-            setPasswordValid(false);
-            return;
-        }
 
         if (emailValid && passwordValid) {
             const result = await sendLogin(email, password);
