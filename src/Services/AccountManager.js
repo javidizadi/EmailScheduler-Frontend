@@ -1,66 +1,83 @@
-import { client, AuthCheck, Auth, ClearAuth } from "./http-client";
+import { client, AuthCheck, Auth, ClearAuth, response } from "./http-client";
 
 export const Login = async (email, password) => {
+  let result = Object.create(response);
+  let serverResponse;
+  const userInfo = {
+    email: email,
+    password: password,
+  };
+
   try {
-    let response = await client.post("/login", {
-      email: email,
-      password: password,
-    });
+    serverResponse = await client.post("/login", userInfo);
   } catch (error) {
     console.log(error);
-    return false;
+    result.isSucceed = false;
+    return result;
   }
 
-  if (response.status === 200) {
-    Auth(response.data["token"]);
-    return true;
+  if (serverResponse.status === 200) {
+    Auth(serverResponse.data["token"]);
+    result.isSucceed = true;
   } else {
-    console.log(response.data["errors"]);
-    return false;
+    result.isSucceed = false;
+    result.result = serverResponse.data["errors"];
   }
+  return result;
 };
 
 export const Register = async (email, password) => {
-  let response;
+  let result = Object.create(response);
+  let serverResponse;
+  let userInfo = {
+    email: email,
+    password: password,
+  };
+
   try {
-    response = await client.post("/register", {
-      email: email,
-      password: password,
-    });
+    serverResponse = await client.post("/register", userInfo);
   } catch (error) {
     console.log(error);
-    return false;
+    result.isSucceed = false;
+    return result;
   }
 
-  if (response.status === 200) {
-    Auth(response.data["token"]);
-    return true;
+  if (serverResponse.status === 200) {
+    Auth(serverResponse.data["token"]);
+    result.isSucceed = true;
   } else {
-    console.log(response.data["errors"]);
-    return false;
+    result.isSucceed = false;
+    result.result = serverResponse.data["errors"];
   }
+  return result;
 };
 
 export const ChangePassword = async (currentPassword, newPassword) => {
   if (AuthCheck === true) {
-    let response;
+    let result = Object.create(response);
+    let serverResponse;
+    const userInput = {
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+    };
+
     try {
-      response = await client.post("/ChangePassword", {
-        currentPassword: currentPassword,
-        newPassword: newPassword,
-      });
+      serverResponse = await client.post("/ChangePassword", userInput);
     } catch (error) {
       console.log(error);
-      return false;
+      result.isSucceed = false;
+      return result;
     }
 
-    if (response.status === 200) {
-      return true;
-    } else if (response.status === 401) {
+    if (serverResponse.status === 200) {
+      result.isSucceed = true;
+    } else if (serverResponse.status === 401) {
+      result.isSucceed = false;
       ClearAuth();
     } else {
-      console.log(response.data);
-      return false;
+      result.isSucceed = false;
+      result.result = serverResponse.data;
     }
+    return result;
   }
 };
