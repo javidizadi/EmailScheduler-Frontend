@@ -13,7 +13,6 @@ const EditSchedule = ({currentSchedule}) => {
     }
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
 
     const [schedule, setSchedule] = useState(initState);
 
@@ -51,7 +50,10 @@ const EditSchedule = ({currentSchedule}) => {
 
         const date = new Date(value);
 
-        setDateValid(date >= today);
+        const today_date ={...today};
+        today_date.setHours(0,0,0,0);
+
+        setDateValid(date >= today_date);
 
         let current = {...schedule};
         current.sendDate = value;
@@ -67,8 +69,7 @@ const EditSchedule = ({currentSchedule}) => {
         const date = new Date(schedule.sendDate);
         date.setHours(hour, min);
 
-        const now = new Date();
-        setTimeValid(date >= now);
+        setTimeValid(date >= today);
 
         let current = {...schedule};
         current.sendTime = value;
