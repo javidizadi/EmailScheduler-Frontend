@@ -1,15 +1,17 @@
+import {NavLink} from "react-router-dom";
+
 function Navbar({IsLoggedIn, Username}) {
 
     let UserZone =
         <div>
             <div className="flex-none">
                 <button className="btn">
-                    <a href="">Login</a>
+                    <NavLink to="/login">Login</NavLink>
                 </button>
             </div>
             <div className="flex-none">
                 <button className="btn">
-                    <a href="">SignUp</a>
+                    <NavLink to="/signup">SignUp</NavLink>
                 </button>
             </div>
         </div>
@@ -38,10 +40,9 @@ function Navbar({IsLoggedIn, Username}) {
                 </div>
                 <div className="flex-1 px-2 mx-2">
                     <div className="items-stretch hidden lg:flex">
-                        <a className="btn btn-ghost btn-sm rounded-btn">Home</a>
-                        {IsLoggedIn ? <a className="btn btn-ghost btn-sm rounded-btn">Schedules</a> : null}
-                        <a className="btn btn-ghost btn-sm rounded-btn">About</a>
-                        <a className="btn btn-ghost btn-sm rounded-btn">Contact</a>
+                        <NavLink to="/" className="btn btn-ghost btn-sm rounded-btn">Home</NavLink>
+                        {IsLoggedIn ? <NavLink to="/schedules" className="btn btn-ghost btn-sm rounded-btn">Schedules</NavLink> : null}
+                        <NavLink to="/contact" className="btn btn-ghost btn-sm rounded-btn">Contact Me</NavLink>
                     </div>
                 </div>
                 {UserZone}
