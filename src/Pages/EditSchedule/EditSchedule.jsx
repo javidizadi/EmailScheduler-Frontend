@@ -1,15 +1,20 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import validator from "validator/es";
+import {ScheduleContext} from "../../Contexts/ScheduleContext";
+import {UpdateSchedule} from "../../Services/SchedulesManager";
+import {useNavigate} from "react-router";
 
-const EditSchedule = ({currentSchedule}) => {
+const EditSchedule = () => {
+
+    const currentSchedule = useContext(ScheduleContext).schedule;
 
     const initState = {
         id: currentSchedule.id,
-        subject: currentSchedule.subject,
+        subject: currentSchedule.title,
         sendTo: currentSchedule.sendTo,
         sendDate: currentSchedule.sendTime.split('T')[0],
         sendTime: currentSchedule.sendTime.split('T')[1],
-        body: currentSchedule.body
+        body: currentSchedule.text
     }
 
     const today = new Date();
@@ -21,6 +26,8 @@ const EditSchedule = ({currentSchedule}) => {
     const [dateValid, setDateValid] = useState(true);
 
     const [timeValid, setTimeValid] = useState(true);
+
+    const navigate = useNavigate();
 
     const handleChangingSubject = (event) => {
 
@@ -50,8 +57,8 @@ const EditSchedule = ({currentSchedule}) => {
 
         const date = new Date(value);
 
-        const today_date ={...today};
-        today_date.setHours(0,0,0,0);
+        const today_date = {...today};
+        today_date.setHours(0, 0, 0, 0);
 
         setDateValid(date >= today_date);
 
@@ -83,11 +90,31 @@ const EditSchedule = ({currentSchedule}) => {
     }
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+
         if (emailValid && dateValid && timeValid) {
-            // ToDo: Send (schedule state) Data to The Server
-        }
-        else{
+            const requestBody = {
+                id: schedule.id,
+                title: schedule.subject,
+                sendTo: schedule.sendTo,
+                sendTime: `${schedule.sendDate}T${schedule.sendTime}`,
+                body: schedule.body,
+            };
+            const result =
+                await UpdateSchedule(
+                    requestBody.id,
+                    requestBody.title,
+                    requestBody.body,
+                    requestBody.sendTo,
+                    requestBody.sendTime);
+
+            if (result.isSucceed) {
+                navigate("/schedules");
+            } else {
+                alert("Error");
+            }
+
+        } else {
 
         }
     }
@@ -160,7 +187,7 @@ const EditSchedule = ({currentSchedule}) => {
             </div>
 
             <div className="form-control mt-6">
-                <input type="submit" onSubmit={handleSubmit} className="btn btn-primary" value="Submit"/>
+                <input type="submit" onClick={handleSubmit} className="btn btn-primary" value="Submit"/>
             </div>
         </div>
     </div>);
