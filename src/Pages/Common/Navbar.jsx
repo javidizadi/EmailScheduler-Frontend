@@ -1,4 +1,4 @@
-import {NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useContext} from "react";
 import {UserContext} from "../../Contexts/UserContext";
 
@@ -17,10 +17,10 @@ function Navbar() {
     let UserZone =
         <div>
             <div className="flex-none">
-                    <NavLink to="/login" className="btn">Login</NavLink>
+                <Link to="/login" className="btn">Login</Link>
             </div>
             <div className="flex-none">
-                    <NavLink to="/signup" className="btn">SignUp</NavLink>
+                <Link to="/signup" className="btn">SignUp</Link>
             </div>
         </div>
 
@@ -32,7 +32,7 @@ function Navbar() {
                         <div tabIndex="0" className="m-1 btn">{userContext.username}</div>
                         <ul tabIndex="0" className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">
                             <li>
-                                <NavLink to="/password" className="btn btn-ghost">Change Password</NavLink>
+                                <Link to="/password" className="btn btn-ghost">Change Password</Link>
                             </li>
                             <li>
                                 <div className="btn btn-ghost" onClick={handleLogout}>Logout</div>
@@ -51,10 +51,10 @@ function Navbar() {
                 </div>
                 <div className="flex-1 px-2 mx-2">
                     <div className="items-stretch hidden lg:flex">
-                        <NavLink to="/" className="btn btn-ghost btn-sm rounded-btn">Home</NavLink>
-                        {userContext.isLoggedIn ? <NavLink to="/schedules"
-                                               className="btn btn-ghost btn-sm rounded-btn">Schedules</NavLink> : null}
-                        <NavLink to="/contact" className="btn btn-ghost btn-sm rounded-btn">Contact Me</NavLink>
+                        <Link to="/" className="btn btn-ghost btn-sm rounded-btn">Home</Link>
+                        {userContext.isLoggedIn ? <Link to="/schedules"
+                                                        className="btn btn-ghost btn-sm rounded-btn">Schedules</Link> : null}
+                        <Link to="/contact" className="btn btn-ghost btn-sm rounded-btn">Contact Me</Link>
                     </div>
                 </div>
                 {UserZone}
