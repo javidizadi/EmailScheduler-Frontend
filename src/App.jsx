@@ -8,6 +8,7 @@ import Schedules from "./Pages/Schedules/Schedules";
 import ContactMe from "./Pages/ContactMe/ContactMe";
 import {UserContext} from "./Contexts/UserContext";
 import {useState} from "react";
+import ChangePassword from "./Pages/ChangePassword/ChangePassword";
 
 
 function App() {
@@ -36,6 +37,11 @@ function App() {
                     <Route path="/signup" element={
                         <div className="flex justify-center mt-24">
                             <SignUp/>
+                        </div>
+                    }/>
+                    <Route path="/password" element={
+                        <div className="flex justify-center mt-24">
+                            <ChangePassword/>
                         </div>
                     }/>
                 </Routes>

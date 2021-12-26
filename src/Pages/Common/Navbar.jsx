@@ -32,8 +32,7 @@ function Navbar() {
                         <div tabIndex="0" className="m-1 btn">{userContext.username}</div>
                         <ul tabIndex="0" className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">
                             <li>
-                                <div className="btn btn-ghost">Change Password</div>
-                                {/* ToDo: Navigate to Change Password Page */}
+                                <NavLink to="/password" className="btn btn-ghost">Change Password</NavLink>
                             </li>
                             <li>
                                 <div className="btn btn-ghost" onClick={handleLogout}>Logout</div>
