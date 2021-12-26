@@ -1,107 +1,68 @@
-import React, {useContext, useState} from "react";
-import validator from "validator/es";
+import React, {useContext} from "react";
 import {Login as sendLogin} from "../../Services/AccountManager";
 import {UserContext} from "../../Contexts/UserContext";
 
 const Login = () => {
-    const [emailValid, setEmailValid] = useState(false);
+        const userContext = useContext(UserContext);
 
-    const handleValidationEmail = (event) => {
-        setEmailValid(validator.isEmail(event.target.value));
-    };
+        const handleSubmit = async (event) => {
+            
+            event.preventDefault();
 
-    const [passwordValid, setPasswordValid] = useState(false);
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-    const handleValidationPassword = (event) => {
-        setPasswordValid(validator.isStrongPassword(event.target.value));
-    };
-
-    const userContext = useContext(UserContext);
-
-    const handleSubmit = async () => {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        if (emailValid && passwordValid) {
             const result = await sendLogin(email, password);
+
             if (result.isSucceed) {
                 userContext.setUser({
                     isLoggedIn: true,
                     username: email
                 });
 
-                // ToDo : completed When Routing is initialized
+                // ToDo : redirect to Home
             } else {
-                alert(result.result);
+                alert("Error:\n" + result.result);
             }
-        }
-    };
 
-    return (
-        <div className="mt-4">
-            <div className="card-body bg-gray-600 shadow-lg rounded-box w-96">
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text">Email</span>
-                    </label>
-                    <input
-                        id="email"
-                        type="text"
-                        placeholder="Email"
-                        className="input input-bordered"
-                        onChange={handleValidationEmail}
-                    />
-                    {emailValid ? null : (
+        };
+
+        return (
+            <div className="mt-4">
+                <form className="card-body bg-gray-600 shadow-lg rounded-box w-96" onSubmit={handleSubmit}>
+                    <div className="form-control">
                         <label className="label">
-              <span className="label-text-alt text-red-400">
-                Please Enter Valid Email
-              </span>
+                            <span className="label-text">Email</span>
                         </label>
-                    )}
-                </div>
-                <div className="form-control mt-5">
-                    <label className="label">
-                        <span className="label-text">Password</span>
-                    </label>
-                    <input
-                        id="password"
-                        type="password"
-                        placeholder="Password"
-                        className="input input-bordered"
-                        onChange={handleValidationPassword}
-                    />
-                    {passwordValid ? null : (
+                        <input
+                            id="email"
+                            type="text"
+                            placeholder="Email"
+                            className="input input-bordered"
+                        />
+                    </div>
+                    <div className="form-control mt-5">
                         <label className="label">
-                            <ul>
-                                <li className="label-text">Your Password Must:</li>
-                                <li className="label-text-alt text-red-400">
-                                    Contains Alphabet
-                                </li>
-                                <li className="label-text-alt text-red-400">
-                                    Contains Capital Alphabet
-                                </li>
-                                <li className="label-text-alt text-red-400">
-                                    Contains Number
-                                </li>
-                                <li className="label-text-alt text-red-400">
-                                    At least 8 Characters
-                                </li>
-                            </ul>
+                            <span className="label-text">Password</span>
                         </label>
-                    )}
-                </div>
-                <div className="form-control mt-8">
-                    <button
-                        type="submit"
-                        className="btn btn-primary"
-                        onClick={handleSubmit}
-                    >
-                        Login
-                    </button>
-                </div>
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="Password"
+                            className="input input-bordered"
+                        />
+                    </div>
+                    <div className="form-control mt-8">
+                        <input
+                            type="submit"
+                            className="btn btn-primary"
+                            value="Login"
+                        />
+                    </div>
+                </form>
             </div>
-        </div>
-    );
-};
+        );
+    }
+;
 
 export default Login;
