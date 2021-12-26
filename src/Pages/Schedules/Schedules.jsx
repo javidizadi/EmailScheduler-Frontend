@@ -8,10 +8,12 @@ const Schedules = () => {
 
     useEffect(() => {
         GetSchedules().then(response => {
+
+            setIsEmpty(!response.isSucceed);
+
             if (response.isSucceed) {
                 setSchedules(response.result);
             } else {
-                setIsEmpty(true);
                 alert("Error in Get Data From Server.");
             }
         });
@@ -85,7 +87,7 @@ const Schedules = () => {
                         <tr key={schedule.id}>
                             <td>{schedule.id}</td>
                             <td>{schedule.sendTo}</td>
-                            <td>{schedule.subject}</td>
+                            <td>{schedule.title}</td>
                             <td>{schedule.sendTime.split('T')[0]}</td>
                             <td>{schedule.sendTime.split('T')[1].replace(":00", "")}</td>
                             <td>
