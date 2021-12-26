@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {GetSchedules} from "../../Services/SchedulesManager";
+import {NavLink} from "react-router-dom";
 
 const Schedules = () => {
     const [schedules, setSchedules] = useState([]);
@@ -40,13 +41,13 @@ const Schedules = () => {
 
     return (<div>
         <div className="mb-2 mt-8">
-            <button className="btn btn-sm btn-circle btn-ghost mr-2">
+            <NavLink to="/add-schedule" className="btn btn-sm btn-circle btn-ghost mr-2">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
                      fill="#FFFFFF">
                     <path d="M0 0h24v24H0V0z" fill="none"/>
                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                 </svg>
-            </button>
+            </NavLink>
             <button className="btn btn-sm btn-circle btn-ghost" onClick={handleClickRefresh}>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
                      fill="#FFFFFF">
