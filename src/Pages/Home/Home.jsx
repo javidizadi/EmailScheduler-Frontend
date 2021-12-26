@@ -1,6 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
+import {UserContext} from "../../Contexts/UserContext";
+import {NavLink} from "react-router-dom";
 
-const Home = ({IsLoggedIn}) => {
+const Home = () => {
+    const userContext = useContext(UserContext);
+
     return <div>
         <div className="hero mt-4 min-h-screen bg-base-200 rounded-box">
 
@@ -17,9 +21,9 @@ const Home = ({IsLoggedIn}) => {
                     </p>
 
                     {
-                        IsLoggedIn ?
-                            <button className="btn btn-primary btn-lg">Schedules</button> :
-                            <button className="btn btn-primary btn-lg">Get Started</button>
+                        userContext.isLoggedIn ?
+                            <NavLink to="/schedules" className="btn btn-primary btn-lg">Schedules</NavLink> :
+                            <NavLink to="/signup" className="btn btn-primary btn-lg">Get Started</NavLink>
                     }
 
                 </div>
