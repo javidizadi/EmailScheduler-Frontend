@@ -1,21 +1,20 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {GetSchedules} from "../../Services/SchedulesManager";
 
 const Schedules = () => {
-
     const [schedules, setSchedules] = useState([]);
     const [isEmpty, setIsEmpty] = useState(true);
 
-    GetSchedules().then(serverResponse => {
-        if (serverResponse.isSucceed) {
-            setIsEmpty(serverResponse.result.len === 0);
-            setSchedules(serverResponse.result);
-        }
-        else{
-            setIsEmpty(true);
-            alert("Error in Get Data From Server.");
-        }
-    });
+    useEffect(() => {
+        GetSchedules().then(response => {
+            if (response.isSucceed) {
+                setSchedules(response.result);
+            } else {
+                setIsEmpty(true);
+                alert("Error in Get Data From Server.");
+            }
+        });
+    }, []);
 
     const handleClickRefresh = async () => {
         let response = await GetSchedules();
@@ -125,6 +124,6 @@ const Schedules = () => {
         }
 
     </div>);
-}
 
+}
 export default Schedules;
