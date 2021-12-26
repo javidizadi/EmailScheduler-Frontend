@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import validator from "validator/es";
 import {Login as sendLogin} from "../../Services/AccountManager";
+import {UserContext} from "../../Contexts/UserContext";
 
 const Login = () => {
     const [emailValid, setEmailValid] = useState(false);
@@ -15,6 +16,8 @@ const Login = () => {
         setPasswordValid(validator.isStrongPassword(event.target.value));
     };
 
+    const userContext = useContext(UserContext);
+
     const handleSubmit = async () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
@@ -22,6 +25,11 @@ const Login = () => {
         if (emailValid && passwordValid) {
             const result = await sendLogin(email, password);
             if (result.isSucceed) {
+                userContext.setUser({
+                    isLoggedIn: true,
+                    username: email
+                });
+
                 // ToDo : completed When Routing is initialized
             } else {
                 alert(result.result);

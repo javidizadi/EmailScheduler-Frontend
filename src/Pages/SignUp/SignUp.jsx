@@ -1,10 +1,13 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import validator from "validator/es";
 import {Register as sendRegister} from "../../Services/AccountManager";
+import {UserContext} from "../../Contexts/UserContext";
 
 const SignUp = () => {
 
     const [emailValid, setEmailValid] = useState(false);
+
+    const userContext = useContext(UserContext);
 
     const handleValidationEmail = (event) => {
         setEmailValid(validator.isEmail(event.target.value));
@@ -29,6 +32,10 @@ const SignUp = () => {
         if (emailValid && passwordValid && passwordMatch) {
             const result = await sendRegister(email, password);
             if (result.isSucceed) {
+                userContext.setUser({
+                    isLoggedIn: true,
+                    username: email
+                });
                 // ToDo : completed When Routing is initialized
             } else {
                 alert(result.result);
