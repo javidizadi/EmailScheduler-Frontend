@@ -1,17 +1,21 @@
 import {Link} from "react-router-dom";
 import {useContext} from "react";
 import {UserContext} from "../../Contexts/UserContext";
+import {useNavigate} from "react-router";
 
 function Navbar() {
 
     const userContext = useContext(UserContext);
 
+    const navigate = useNavigate();
+
     const handleLogout = () => {
         userContext.setUser({
             isLoggedIn: false,
             username: ""
-        })
-        // ToDo : Redirect to Home Page
+        });
+
+        navigate("/");
     }
 
     let UserZone =

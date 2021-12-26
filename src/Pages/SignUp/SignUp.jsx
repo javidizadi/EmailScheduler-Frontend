@@ -2,12 +2,15 @@ import React, {useContext, useState} from "react";
 import validator from "validator/es";
 import {Register as sendRegister} from "../../Services/AccountManager";
 import {UserContext} from "../../Contexts/UserContext";
+import {useNavigate} from "react-router";
 
 const SignUp = () => {
 
     const [emailValid, setEmailValid] = useState(false);
 
     const userContext = useContext(UserContext);
+
+    const navigate = useNavigate();
 
     const handleValidationEmail = (event) => {
         setEmailValid(validator.isEmail(event.target.value));
@@ -36,7 +39,7 @@ const SignUp = () => {
                     isLoggedIn: true,
                     username: email
                 });
-                // ToDo : completed When Routing is initialized
+                navigate("/");
             } else {
                 alert(result.result);
             }

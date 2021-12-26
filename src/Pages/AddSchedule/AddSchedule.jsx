@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import validator from "validator/es";
+import {useNavigate} from "react-router";
 
 const AddSchedule = () => {
 
@@ -22,6 +23,8 @@ const AddSchedule = () => {
     const [dateValid, setDateValid] = useState(false);
 
     const [timeValid, setTimeValid] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleChangingSubject = (event) => {
 
@@ -88,7 +91,8 @@ const AddSchedule = () => {
 
     const handleSubmit = () => {
         if (emailValid && dateValid && timeValid) {
-            // ToDo: Send (schedule state) Data to The Server
+            // ToDo: Send Data to Server
+            navigate("/");
         } else {
 
         }

@@ -1,12 +1,14 @@
 import React, {useContext} from "react";
 import {Login as sendLogin} from "../../Services/AccountManager";
 import {UserContext} from "../../Contexts/UserContext";
+import {useNavigate} from "react-router";
 
 const Login = () => {
         const userContext = useContext(UserContext);
+        const navigate = useNavigate();
 
         const handleSubmit = async (event) => {
-            
+
             event.preventDefault();
 
             const email = document.getElementById("email").value;
@@ -20,7 +22,7 @@ const Login = () => {
                     username: email
                 });
 
-                // ToDo : redirect to Home
+                navigate("/");
             } else {
                 alert("Error:\n" + result.result);
             }

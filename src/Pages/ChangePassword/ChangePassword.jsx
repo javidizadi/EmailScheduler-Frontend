@@ -1,10 +1,13 @@
 import React, {useState} from "react";
 import validator from "validator/es";
 import {ChangePassword as sendChangeRequest} from "../../Services/AccountManager";
+import {useNavigate} from "react-router";
 
 const ChangePassword = () => {
 
     const [passwordValid, setPasswordValid] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleValidationPassword = (event) => {
         setPasswordValid(validator.isStrongPassword(event.target.value));
@@ -25,7 +28,7 @@ const ChangePassword = () => {
 
             if (result.isSucceed) {
                 alert("Your Password Changed!");
-                // ToDo: Redirect to Home
+                navigate("/");
             } else {
                 alert("Fault:\n" + result.result);
             }
