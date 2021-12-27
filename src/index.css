@@ -3,5 +3,32 @@
 @tailwind utilities;
 
 body {
-  padding: 20px;
+    padding: 20px;
+}
+
+.loading-container {
+    background: rgb(61, 68, 81);
+    display: block;
+    shape-rendering: auto;
+    animation-play-state: running;
+    animation-delay: 0s;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.loading-animation {
+    animation-play-state: running;
+    animation-delay: 0s;
+}
+
+.loading-path {
+    transform: scale(0.8);
+    transform-origin: 50px 50px;
+    animation-play-state: running;
+    animation-delay: 0s;
 }

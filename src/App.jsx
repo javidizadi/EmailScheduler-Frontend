@@ -14,6 +14,8 @@ import EditSchedule from "./Pages/EditSchedule/EditSchedule";
 import {ScheduleContext} from "./Contexts/ScheduleContext";
 import ScheduleDetails from "./Pages/ScheduleDetails/ScheduleDetails";
 import DeleteSchedule from "./Pages/DeleteSchedule/DeleteSchedule";
+import LoadingContext from "./Contexts/LoadingContext";
+import Loading from "./Pages/Common/Loding";
 
 
 function App() {
@@ -31,59 +33,65 @@ function App() {
         text: ""
     });
 
+    const [isLoading, setIsLoading] = useState(false);
+
     return (
         <div className="App">
-            <UserContext.Provider
-                value={{isLoggedIn: user.isLoggedIn, username: user.username, setUser: setUser}}>
+            <LoadingContext.Provider value={{isLoading: isLoading, setIsLoading: setIsLoading}}>
+                <UserContext.Provider
+                    value={{isLoggedIn: user.isLoggedIn, username: user.username, setUser: setUser}}>
 
-                <ScheduleContext.Provider value={{schedule: schedule, setSchedule: setSchedule}}>
+                    <ScheduleContext.Provider value={{schedule: schedule, setSchedule: setSchedule}}>
+                        {isLoading ? <Loading/> : <div>
+                            <div className="mb-4">
+                                <Navbar/>
+                            </div>
+                            <Routes>
+                                <Route path="/" element={<Home/>}/>
+                                <Route path="/contact" element={<ContactMe/>}/>
+                                <Route path="/login" element={
+                                    <div className="flex justify-center mt-24">
+                                        <Login/>
+                                    </div>
+                                }/>
+                                <Route path="/signup" element={
+                                    <div className="flex justify-center mt-24">
+                                        <SignUp/>
+                                    </div>
+                                }/>
+                                <Route path="/password" element={
+                                    <div className="flex justify-center mt-24">
+                                        <ChangePassword/>
+                                    </div>
+                                }/>
 
-                    <div className="mb-4">
-                        <Navbar/>
-                    </div>
-                    <Routes>
-                        <Route path="/" element={<Home/>}/>
-                        <Route path="/contact" element={<ContactMe/>}/>
-                        <Route path="/login" element={
-                            <div className="flex justify-center mt-24">
-                                <Login/>
-                            </div>
-                        }/>
-                        <Route path="/signup" element={
-                            <div className="flex justify-center mt-24">
-                                <SignUp/>
-                            </div>
-                        }/>
-                        <Route path="/password" element={
-                            <div className="flex justify-center mt-24">
-                                <ChangePassword/>
-                            </div>
-                        }/>
-
-                        <Route path="/schedules" element={<Schedules/>}/>
-                        <Route path="/add-schedule" element={
-                            <div className="flex justify-center mt-24">
-                                <AddSchedule/>
-                            </div>
-                        }/>
-                        <Route path="/edit-schedule" element={
-                            <div className="flex justify-center mt-24">
-                                <EditSchedule/>
-                            </div>
-                        }/>
-                        <Route path="/schedule-details" element={
-                            <div className="flex justify-center mt-24">
-                                <ScheduleDetails/>
-                            </div>
-                        }/>
-                        <Route path="/delete-schedule" element={
-                            <div className="flex justify-center mt-24">
-                                <DeleteSchedule/>
-                            </div>
-                        }/>
-                    </Routes>
-                </ScheduleContext.Provider>
-            </UserContext.Provider>
+                                <Route path="/schedules" element={<Schedules/>}/>
+                                <Route path="/add-schedule" element={
+                                    <div className="flex justify-center mt-24">
+                                        <AddSchedule/>
+                                    </div>
+                                }/>
+                                <Route path="/edit-schedule" element={
+                                    <div className="flex justify-center mt-24">
+                                        <EditSchedule/>
+                                    </div>
+                                }/>
+                                <Route path="/schedule-details" element={
+                                    <div className="flex justify-center mt-24">
+                                        <ScheduleDetails/>
+                                    </div>
+                                }/>
+                                <Route path="/delete-schedule" element={
+                                    <div className="flex justify-center mt-24">
+                                        <DeleteSchedule/>
+                                    </div>
+                                }/>
+                            </Routes>
+                        </div>
+                        }
+                    </ScheduleContext.Provider>
+                </UserContext.Provider>
+            </LoadingContext.Provider>
         </div>
     );
 
