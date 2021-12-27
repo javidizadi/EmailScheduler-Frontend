@@ -42,7 +42,8 @@ function App() {
                     value={{isLoggedIn: user.isLoggedIn, username: user.username, setUser: setUser}}>
 
                     <ScheduleContext.Provider value={{schedule: schedule, setSchedule: setSchedule}}>
-                        {isLoading ? <Loading/> : <div>
+                        {isLoading ? <Loading/> : null}
+                        <div hidden={isLoading}>
                             <div className="mb-4">
                                 <Navbar/>
                             </div>
@@ -88,7 +89,7 @@ function App() {
                                 }/>
                             </Routes>
                         </div>
-                        }
+
                     </ScheduleContext.Provider>
                 </UserContext.Provider>
             </LoadingContext.Provider>
