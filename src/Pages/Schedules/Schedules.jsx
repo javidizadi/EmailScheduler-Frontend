@@ -4,15 +4,19 @@ import {Link} from "react-router-dom";
 import {ScheduleContext} from "../../Contexts/ScheduleContext";
 import {useNavigate} from "react-router";
 import ScheduleRow from "./ScheduleRow";
+import LoadingContext from "../../Contexts/LoadingContext";
 
 const Schedules = () => {
     const [schedules, setSchedules] = useState([]);
     const [isEmpty, setIsEmpty] = useState(true);
+    const loadingContext = useContext(LoadingContext);
     const scheduleContext = useContext(ScheduleContext);
 
     const navigate = useNavigate();
 
     useEffect(() => {
+        loadingContext.setIsLoading(true);
+
         GetSchedules().then(response => {
 
             setIsEmpty(!response.isSucceed);
@@ -23,10 +27,18 @@ const Schedules = () => {
                 alert("Error in Get Data From Server.");
             }
         });
+
+        loadingContext.setIsLoading(false);
     }, []);
 
     const handleClickRefresh = async () => {
+
+        loadingContext.setIsLoading(true);
+
         let response = await GetSchedules();
+
+        loadingContext.setIsLoading(false);
+
         if (response.isSucceed) {
             setSchedules(response.result);
         } else {
@@ -36,7 +48,11 @@ const Schedules = () => {
     }
 
     const handleClickDetails = async (id) => {
+        loadingContext.setIsLoading(true);
+
         const result = await GetSchedule(id);
+
+        loadingContext.setIsLoading(false);
 
         if (result.isSucceed) {
             scheduleContext.setSchedule(result.result);
@@ -44,7 +60,9 @@ const Schedules = () => {
         }
     }
     const handleClickEdit = async (id) => {
+        loadingContext.setIsLoading(true);
         const result = await GetSchedule(id);
+        loadingContext.setIsLoading(false);
 
         if (result.isSucceed) {
             scheduleContext.setSchedule(result.result);
@@ -52,7 +70,9 @@ const Schedules = () => {
         }
     }
     const handleClickDelete = async (id) => {
+        loadingContext.setIsLoading(true);
         const result = await GetSchedule(id);
+        loadingContext.setIsLoading(false);
 
         if (result.isSucceed) {
             scheduleContext.setSchedule(result.result);

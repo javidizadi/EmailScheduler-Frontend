@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import validator from "validator/es";
 import {useNavigate} from "react-router";
 import {AddSchedule as sendSchedule} from "../../Services/SchedulesManager";
+import LoadingContext from "../../Contexts/LoadingContext";
 
 const AddSchedule = () => {
 
@@ -22,6 +23,8 @@ const AddSchedule = () => {
     const [dateValid, setDateValid] = useState(false);
 
     const [timeValid, setTimeValid] = useState(false);
+
+    const loadingContext = useContext(LoadingContext);
 
     const navigate = useNavigate();
 
@@ -94,6 +97,8 @@ const AddSchedule = () => {
     const handleSubmit = async () => {
         if (emailValid && dateValid && timeValid) {
 
+            loadingContext.setIsLoading(true);
+
             const date = new Date(`${schedule.sendDate}T${schedule.sendTime}:00`);
             const sendTime = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}T${date.getUTCHours()}:${date.getUTCMinutes()}:00`;
 
@@ -105,11 +110,15 @@ const AddSchedule = () => {
             };
 
             const result = await sendSchedule(requestBody.title, requestBody.body, requestBody.sendTo, requestBody.sendTime);
+
+            loadingContext.setIsLoading(false);
+
             if (result.isSucceed) {
                 navigate("/schedules");
             } else {
                 alert("Error:\n" + result.result);
             }
+
         }
     }
 

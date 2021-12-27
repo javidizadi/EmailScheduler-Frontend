@@ -2,19 +2,25 @@ import React, {useContext} from "react";
 import {Login as sendLogin} from "../../Services/AccountManager";
 import {UserContext} from "../../Contexts/UserContext";
 import {useNavigate} from "react-router";
+import LoadingContext from "../../Contexts/LoadingContext";
 
 const Login = () => {
         const userContext = useContext(UserContext);
+        const loadingContext = useContext(LoadingContext);
         const navigate = useNavigate();
 
         const handleSubmit = async (event) => {
 
             event.preventDefault();
 
+            loadingContext.setIsLoading(true);
+
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
             const result = await sendLogin(email, password);
+
+            loadingContext.setIsLoading(false);
 
             if (result.isSucceed) {
                 userContext.setUser({

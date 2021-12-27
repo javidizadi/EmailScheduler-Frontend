@@ -3,10 +3,12 @@ import validator from "validator/es";
 import {ScheduleContext} from "../../Contexts/ScheduleContext";
 import {UpdateSchedule} from "../../Services/SchedulesManager";
 import {useNavigate} from "react-router";
+import LoadingContext from "../../Contexts/LoadingContext";
 
 const EditSchedule = () => {
 
     const currentSchedule = useContext(ScheduleContext).schedule;
+    const loadingContext = useContext(LoadingContext);
 
     const initState = {
         id: currentSchedule.id,
@@ -94,6 +96,8 @@ const EditSchedule = () => {
 
         if (emailValid && dateValid && timeValid) {
 
+            loadingContext.setIsLoading(true);
+
             const date = new Date(`${schedule.sendDate}T${schedule.sendTime}:00`);
             const sendTime = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}T${date.getUTCHours()}:${date.getUTCMinutes()}:00`;
 
@@ -111,6 +115,8 @@ const EditSchedule = () => {
                     requestBody.body,
                     requestBody.sendTo,
                     requestBody.sendTime);
+
+            loadingContext.setIsLoading(false);
 
             if (result.isSucceed) {
                 navigate("/schedules");

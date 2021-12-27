@@ -3,12 +3,15 @@ import validator from "validator/es";
 import {Register as sendRegister} from "../../Services/AccountManager";
 import {UserContext} from "../../Contexts/UserContext";
 import {useNavigate} from "react-router";
+import LoadingContext from "../../Contexts/LoadingContext";
 
 const SignUp = () => {
 
     const [emailValid, setEmailValid] = useState(false);
 
     const userContext = useContext(UserContext);
+
+    const loadingContext = useContext(LoadingContext);
 
     const navigate = useNavigate();
 
@@ -33,7 +36,9 @@ const SignUp = () => {
         const password = document.getElementById("password").value;
 
         if (emailValid && passwordValid && passwordMatch) {
+            loadingContext.setIsLoading(true);
             const result = await sendRegister(email, password);
+            loadingContext.setIsLoading(false);
             if (result.isSucceed) {
                 userContext.setUser({
                     isLoggedIn: true,

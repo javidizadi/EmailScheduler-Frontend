@@ -1,11 +1,14 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import validator from "validator/es";
 import {ChangePassword as sendChangeRequest} from "../../Services/AccountManager";
 import {useNavigate} from "react-router";
+import LoadingContext from "../../Contexts/LoadingContext";
 
 const ChangePassword = () => {
 
     const [passwordValid, setPasswordValid] = useState(false);
+
+    const loadingContext = useContext(LoadingContext);
 
     const navigate = useNavigate();
 
@@ -21,10 +24,15 @@ const ChangePassword = () => {
 
     const handleSubmit = async () => {
         if (passwordValid && passwordMatch) {
+
+            loadingContext.setIsLoading(true);
+
             const currentPassword = document.getElementById("currentPassword").value;
             const newPassword = document.getElementById("newPassword").value;
 
             const result = await sendChangeRequest(currentPassword, newPassword);
+
+            loadingContext.setIsLoading(false);
 
             if (result.isSucceed) {
                 alert("Your Password Changed!");

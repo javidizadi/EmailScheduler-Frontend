@@ -2,14 +2,18 @@ import React, {useContext} from "react";
 import {ScheduleContext} from "../../Contexts/ScheduleContext";
 import {DeleteSchedule as deleteRequest} from "../../Services/SchedulesManager";
 import {useNavigate} from "react-router";
+import LoadingContext from "../../Contexts/LoadingContext";
 
 const DeleteSchedule = () => {
 
     const scheduleContext = useContext(ScheduleContext).schedule;
+    const loadingContext = useContext(LoadingContext);
     const navigate = useNavigate();
 
     const handleRemove = async () => {
+        loadingContext.setIsLoading(true);
         await deleteRequest(scheduleContext.id);
+        loadingContext.setIsLoading(false);
         navigate("/schedules");
     }
 
