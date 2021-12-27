@@ -14,8 +14,10 @@ const Schedules = () => {
 
     const navigate = useNavigate();
 
+
+    loadingContext.setIsLoading(true);
+
     useEffect(() => {
-        loadingContext.setIsLoading(true);
 
         GetSchedules().then(response => {
 
@@ -28,8 +30,10 @@ const Schedules = () => {
             }
         });
 
-        loadingContext.setIsLoading(false);
     }, []);
+
+    loadingContext.setIsLoading(false);
+
 
     const handleClickRefresh = async () => {
 
