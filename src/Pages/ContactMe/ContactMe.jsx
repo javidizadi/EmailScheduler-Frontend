@@ -19,7 +19,7 @@ const ContactMe = () => {
                             </svg>
                         </a>
                         <a className="link link-hover" href="https://github.com/javidizadi">
-                            <img src="/public/github.png" alt=""/>
+                            <img src="/github.png" alt=""/>
                         </a>
 
                         <a href="https://javidizadi.ir">

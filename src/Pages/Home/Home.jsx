@@ -8,7 +8,7 @@ const Home = () => {
     return <div>
         <div className="hero mt-4 min-h-screen bg-base-200 rounded-box">
 
-            <img className="rounded-box opacity-25" src="../../../public/clock.jpg" alt=""/>
+            <img className="rounded-box opacity-25" src="/clock.jpg" alt=""/>
 
             <div className="text-center hero-content">
                 <div className="max-w-lg">
