@@ -93,12 +93,17 @@ const AddSchedule = () => {
 
     const handleSubmit = async () => {
         if (emailValid && dateValid && timeValid) {
+
+            const date = new Date(`${schedule.sendDate}T${schedule.sendTime}`);
+            const sendTime = `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDay()}T${date.getUTCHours()}:${date.getUTCMinutes()}:00`;
+
             const requestBody = {
                 title: schedule.subject,
                 sendTo: schedule.sendTo,
-                sendTime: `${schedule.sendDate}T${schedule.sendTime}`,
+                sendTime: sendTime,
                 body: schedule.body,
             };
+
             const result = await sendSchedule(requestBody.title, requestBody.body, requestBody.sendTo, requestBody.sendTime);
             if (result.isSucceed) {
                 navigate("/schedules");

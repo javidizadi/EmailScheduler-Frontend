@@ -1,5 +1,10 @@
 import http_client, {response} from "./http-client";
 
+const getLocalDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString + "+00:00");
+    return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}T${date.getHours()}:${date.getMinutes()}:00`;
+}
+
 export const AddSchedule = async (subject, body, sendTo, sendTime) => {
     if (http_client.CheckAuth() === true) {
         let schedule = {
@@ -43,7 +48,11 @@ export const GetSchedules = async () => {
 
         result.isSucceed = serverResponse.status === 200;
         if (result.isSucceed) {
-            result.result = serverResponse.data;
+            serverResponse.data.map(schedule => {
+                    schedule.sendTime = getLocalDateTime(schedule.sendTime);
+                    result.result.push(schedule);
+                }
+            );
         } else if (serverResponse.status === 401) {
             http_client.ClearAuth();
         }
@@ -66,6 +75,7 @@ export const GetSchedule = async (id) => {
         result.isSucceed = serverResponse.status === 200;
         if (result.isSucceed) {
             result.result = serverResponse.data;
+            result.result.sendTime = getLocalDateTime(result.result.sendTime);
         } else if (serverResponse.status === 401) {
             http_client.ClearAuth();
         }

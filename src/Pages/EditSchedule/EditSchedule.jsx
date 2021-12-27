@@ -93,11 +93,15 @@ const EditSchedule = () => {
     const handleSubmit = async () => {
 
         if (emailValid && dateValid && timeValid) {
+
+            const date = new Date(`${schedule.sendDate}T${schedule.sendTime}`);
+            const sendTime = `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDay()}T${date.getUTCHours()}:${date.getUTCMinutes()}:00`;
+
             const requestBody = {
                 id: schedule.id,
                 title: schedule.subject,
                 sendTo: schedule.sendTo,
-                sendTime: `${schedule.sendDate}T${schedule.sendTime}`,
+                sendTime: sendTime,
                 body: schedule.body,
             };
             const result =
