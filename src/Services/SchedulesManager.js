@@ -48,6 +48,7 @@ export const GetSchedules = async () => {
 
         result.isSucceed = serverResponse.status === 200;
         if (result.isSucceed) {
+            result.result = [];
             serverResponse.data.map(schedule => {
                     schedule.sendTime = getLocalDateTime(schedule.sendTime);
                     result.result.push(schedule);

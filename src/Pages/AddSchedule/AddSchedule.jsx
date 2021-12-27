@@ -94,8 +94,8 @@ const AddSchedule = () => {
     const handleSubmit = async () => {
         if (emailValid && dateValid && timeValid) {
 
-            const date = new Date(`${schedule.sendDate}T${schedule.sendTime}`);
-            const sendTime = `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDay()}T${date.getUTCHours()}:${date.getUTCMinutes()}:00`;
+            const date = new Date(`${schedule.sendDate}T${schedule.sendTime}:00`);
+            const sendTime = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}T${date.getUTCHours()}:${date.getUTCMinutes()}:00`;
 
             const requestBody = {
                 title: schedule.subject,
