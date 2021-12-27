@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import validator from "validator/es";
 import {useNavigate} from "react-router";
+import {AddSchedule as sendSchedule} from "../../Services/SchedulesManager";
 
 const AddSchedule = () => {
 
@@ -11,8 +12,6 @@ const AddSchedule = () => {
         sendTime: "00:00",
         body: ""
     }
-
-    const today = new Date();
 
     const [schedule, setSchedule] = useState(initState);
 
@@ -48,11 +47,12 @@ const AddSchedule = () => {
     }
 
     const handleChangingSendDate = (event) => {
+
         const value = event.target.value;
 
         const date = new Date(value);
 
-        const today_date = {...today};
+        let today_date = new Date();
         today_date.setHours(0, 0, 0, 0);
 
         setDateValid(date >= today_date);
@@ -70,6 +70,8 @@ const AddSchedule = () => {
 
         const date = new Date(schedule.sendDate);
         date.setHours(hour, min);
+
+        const today = new Date();
 
         setTimeValid(date >= today);
 
@@ -89,12 +91,20 @@ const AddSchedule = () => {
     }
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (emailValid && dateValid && timeValid) {
-            // ToDo: Send Data to Server
-            navigate("/");
-        } else {
-
+            const requestBody = {
+                title: schedule.subject,
+                sendTo: schedule.sendTo,
+                sendTime: `${schedule.sendDate}T${schedule.sendTime}`,
+                body: schedule.body,
+            };
+            const result = await sendSchedule(requestBody.title, requestBody.body, requestBody.sendTo, requestBody.sendTime);
+            if (result.isSucceed) {
+                navigate("/schedules");
+            } else {
+                alert("Error:\n" + result.result);
+            }
         }
     }
 
@@ -173,7 +183,7 @@ const AddSchedule = () => {
             </div>
 
             <div className="form-control mt-6">
-                <input type="submit" onSubmit={handleSubmit} className="btn btn-primary" value="Submit"/>
+                <input type="submit" onClick={handleSubmit} className="btn btn-primary" value="Submit"/>
             </div>
         </div>
     </div>);
