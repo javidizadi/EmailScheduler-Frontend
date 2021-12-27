@@ -13,6 +13,7 @@ import AddSchedule from "./Pages/AddSchedule/AddSchedule";
 import EditSchedule from "./Pages/EditSchedule/EditSchedule";
 import {ScheduleContext} from "./Contexts/ScheduleContext";
 import ScheduleDetails from "./Pages/ScheduleDetails/ScheduleDetails";
+import DeleteSchedule from "./Pages/DeleteSchedule/DeleteSchedule";
 
 
 function App() {
@@ -73,6 +74,11 @@ function App() {
                         <Route path="/schedule-details" element={
                             <div className="flex justify-center mt-24">
                                 <ScheduleDetails/>
+                            </div>
+                        }/>
+                        <Route path="/delete-schedule" element={
+                            <div className="flex justify-center mt-24">
+                                <DeleteSchedule/>
                             </div>
                         }/>
                     </Routes>

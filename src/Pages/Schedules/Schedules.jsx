@@ -52,7 +52,12 @@ const Schedules = () => {
         }
     }
     const handleClickDelete = async (id) => {
+        const result = await GetSchedule(id);
 
+        if (result.isSucceed) {
+            scheduleContext.setSchedule(result.result);
+            navigate("/delete-schedule");
+        }
     }
 
     return (<div>
