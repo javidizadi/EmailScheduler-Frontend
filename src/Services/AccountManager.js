@@ -11,8 +11,14 @@ export const Login = async (email, password) => {
     try {
         serverResponse = await http_client.client.post("/login", userInfo);
     } catch (error) {
+
         console.log(error);
+
         result.isSucceed = false;
+
+        if (error.toString().includes("404")) {
+            result.result = "Username or Password is incorrect.";
+        }
         return result;
     }
 
@@ -23,6 +29,7 @@ export const Login = async (email, password) => {
         result.isSucceed = false;
         result.result = serverResponse.data["errors"];
     }
+    console.log(result);
     return result;
 };
 
