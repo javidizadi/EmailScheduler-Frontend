@@ -15,6 +15,8 @@ function Navbar() {
             username: ""
         });
 
+        localStorage.clear();
+
         navigate("/");
     }
 

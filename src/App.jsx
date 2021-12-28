@@ -21,8 +21,8 @@ import Loading from "./Pages/Common/Loding";
 function App() {
 
     const [user, setUser] = useState({
-        isLoggedIn: false,
-        username: ""
+        isLoggedIn: localStorage.getItem("username") != null,
+        username: localStorage.getItem("username")
     });
 
     const [schedule, setSchedule] = useState({

@@ -25,6 +25,11 @@ export const Login = async (email, password) => {
     if (serverResponse.status === 200) {
         http_client.Auth(serverResponse.data["token"]);
         result.isSucceed = true;
+
+        localStorage.clear();
+        localStorage.setItem("username", email);
+        localStorage.setItem("token", serverResponse.data["token"]);
+
     } else {
         result.isSucceed = false;
         result.result = serverResponse.data["errors"];
@@ -51,6 +56,11 @@ export const Register = async (email, password) => {
     if (serverResponse.status === 200) {
         http_client.Auth(serverResponse.data["token"]);
         result.isSucceed = true;
+
+        localStorage.clear();
+        localStorage.setItem("username", email);
+        localStorage.setItem("token", serverResponse.data["token"]);
+
     } else {
         result.isSucceed = false;
         result.result = serverResponse.data["errors"];
