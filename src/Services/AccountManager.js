@@ -29,7 +29,6 @@ export const Login = async (email, password) => {
         result.isSucceed = false;
         result.result = serverResponse.data["errors"];
     }
-    console.log(result);
     return result;
 };
 
