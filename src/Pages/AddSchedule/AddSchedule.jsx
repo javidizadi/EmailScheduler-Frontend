@@ -28,6 +28,18 @@ const AddSchedule = () => {
 
     const navigate = useNavigate();
 
+    const getUTCDateTime = (dateTimeString) => {
+        const date = new Date(dateTimeString);
+
+        const local_year = date.getUTCFullYear();
+        const local_month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+        const local_day = date.getUTCDate().toString().padStart(2, '0');
+        const local_hour = date.getUTCHours().toString().padStart(2, '0');
+        const local_minutes = date.getUTCMinutes().toString().padStart(2, '0');
+
+        return `${local_year}-${local_month}-${local_day}T${local_hour}:${local_minutes}:00`;
+    }
+
     const handleChangingSubject = (event) => {
 
         let current = {...schedule};
@@ -99,8 +111,7 @@ const AddSchedule = () => {
 
             loadingContext.setIsLoading(true);
 
-            const date = new Date(`${schedule.sendDate}T${schedule.sendTime}:00`);
-            const sendTime = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}T${date.getUTCHours()}:${date.getUTCMinutes()}:00`;
+            const sendTime = getUTCDateTime(`${schedule.sendDate}T${schedule.sendTime}:00`);
 
             const requestBody = {
                 title: schedule.subject,
