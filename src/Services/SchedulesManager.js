@@ -2,7 +2,14 @@ import http_client, {response} from "./http-client";
 
 const getLocalDateTime = (dateTimeString) => {
     const date = new Date(dateTimeString + "+00:00");
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}T${date.getHours()}:${date.getMinutes()}:00`;
+
+    const local_year = date.getFullYear();
+    const local_month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const local_day = date.getDate().toString().padStart(2, '0');
+    const local_hour = date.getHours().toString().padStart(2, '0');
+    const local_minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${local_year}-${local_month}-${local_day}T${local_hour}:${local_minutes}:00`;
 }
 
 export const AddSchedule = async (subject, body, sendTo, sendTime) => {
