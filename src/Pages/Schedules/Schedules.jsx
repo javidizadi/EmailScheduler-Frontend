@@ -15,11 +15,14 @@ const Schedules = () => {
     const navigate = useNavigate();
 
 
-    loadingContext.setIsLoading(true);
 
     useEffect(() => {
 
+        loadingContext.setIsLoading(true);
+
         GetSchedules().then(response => {
+
+            loadingContext.setIsLoading(false);
 
             setIsEmpty(!response.isSucceed);
 
@@ -32,7 +35,6 @@ const Schedules = () => {
 
     }, []);
 
-    loadingContext.setIsLoading(false);
 
 
     const handleClickRefresh = async () => {
