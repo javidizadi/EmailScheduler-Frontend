@@ -36,7 +36,6 @@ const Schedules = () => {
     }, []);
 
 
-
     const handleClickRefresh = async () => {
 
         loadingContext.setIsLoading(true);
@@ -65,6 +64,7 @@ const Schedules = () => {
             navigate("/schedule-details");
         }
     }
+
     const handleClickEdit = async (id) => {
         loadingContext.setIsLoading(true);
         const result = await GetSchedule(id);
@@ -75,6 +75,7 @@ const Schedules = () => {
             navigate("/edit-schedule");
         }
     }
+    
     const handleClickDelete = async (id) => {
         loadingContext.setIsLoading(true);
         const result = await GetSchedule(id);
@@ -87,7 +88,7 @@ const Schedules = () => {
     }
 
     return (<div>
-        <div className="mb-2 mt-8">
+        <div className="mb-2">
             <Link to="/add-schedule" className="btn btn-sm btn-circle btn-ghost mr-2">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
                      fill="#FFFFFF">
@@ -104,7 +105,7 @@ const Schedules = () => {
                 </svg>
             </button>
         </div>
-        {isEmpty ? <div className="hero min-h-screen bg-base-200 w-3/4 rounded-box">
+        {isEmpty ? <div className="hero min-h-screen bg-base-200 w-full rounded-box">
                 <div className="text-center hero-content">
                     <div className="max-w-md">
                         <h1 className="mb-5 text-4xl font-bold">
@@ -114,7 +115,7 @@ const Schedules = () => {
                 </div>
             </div>
             :
-            <div className="overflow-x-auto w-3/4">
+            <div className="overflow-x-auto">
 
                 <table className="table w-full">
                     <thead>
